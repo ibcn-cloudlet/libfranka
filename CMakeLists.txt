@@ -43,7 +43,7 @@ endif()
 add_subdirectory(common)
 
 ## Library
-add_library(franka SHARED
+add_library(franka STATIC
   src/control_loop.cpp
   src/control_types.cpp
   src/duration.cpp
@@ -69,6 +69,7 @@ set_target_properties(franka PROPERTIES
   VERSION ${libfranka_VERSION}
   SOVERSION ${libfranka_VERSION_MAJOR}.${libfranka_VERSION_MINOR} # Use minor version while we're at 0.x
   EXPORT_NAME Franka
+  POSITION_INDEPENDENT_CODE True
 )
 
 target_include_directories(franka PUBLIC
@@ -85,44 +86,44 @@ target_link_libraries(franka PRIVATE
 )
 
 ## Installation
-include(GNUInstallDirs)
-set(INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/Franka)
-
-install(TARGETS franka
-  EXPORT FrankaTargets
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-export(EXPORT FrankaTargets
-  NAMESPACE Franka::
-  FILE ${CMAKE_CURRENT_BINARY_DIR}/FrankaTargets.cmake
-)
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/FrankaConfigVersion.cmake
-  COMPATIBILITY SameMajorVersion
-)
-configure_package_config_file(cmake/FrankaConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/FrankaConfig.cmake
-  INSTALL_DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
-)
-configure_file(cmake/FindPoco.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/FindPoco.cmake
-  COPYONLY
-)
-
-install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/FindPoco.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/FrankaConfig.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/FrankaConfigVersion.cmake
-  DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
-)
-install(EXPORT FrankaTargets
-  NAMESPACE Franka::
-  DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
-)
+#include(GNUInstallDirs)
+#set(INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/Franka)
+#
+#install(TARGETS franka
+#  EXPORT FrankaTargets
+#  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#)
+#install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#
+#export(EXPORT FrankaTargets
+#  NAMESPACE Franka::
+#  FILE ${CMAKE_CURRENT_BINARY_DIR}/FrankaTargets.cmake
+#)
+#
+#include(CMakePackageConfigHelpers)
+#write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/FrankaConfigVersion.cmake
+#  COMPATIBILITY SameMajorVersion
+#)
+#configure_package_config_file(cmake/FrankaConfig.cmake.in
+#  ${CMAKE_CURRENT_BINARY_DIR}/FrankaConfig.cmake
+#  INSTALL_DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
+#)
+#configure_file(cmake/FindPoco.cmake
+#  ${CMAKE_CURRENT_BINARY_DIR}/FindPoco.cmake
+#  COPYONLY
+#)
+#
+#install(FILES
+#  ${CMAKE_CURRENT_BINARY_DIR}/FindPoco.cmake
+#  ${CMAKE_CURRENT_BINARY_DIR}/FrankaConfig.cmake
+#  ${CMAKE_CURRENT_BINARY_DIR}/FrankaConfigVersion.cmake
+#  DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
+#)
+#install(EXPORT FrankaTargets
+#  NAMESPACE Franka::
+#  DESTINATION ${INSTALL_CMAKE_CONFIG_DIR}
+#)
 
 ## Subprojects
 
